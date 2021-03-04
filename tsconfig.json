@@ -1,16 +1,22 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 14",
+ 
   "compilerOptions": {
-    "jsx": "react-native",
+    "lib": ["esnext"],
+    "module": "commonjs",
     "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
+    "sourceMap": true,
+    "resolveJsonModule": true,
     "allowJs": true,
-    "skipLibCheck": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
-  }
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist"
+  }  
+  
 }
+ 

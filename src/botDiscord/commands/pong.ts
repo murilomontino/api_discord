@@ -1,9 +1,9 @@
-import { Message } from 'discord.js'
+import { Message, Client } from 'discord.js'
 
 export default {
 	name: 'pong',
 	description: 'Pong!',
-	execute(message:Message) {
+	execute(client:Client, {message}:{message:Message}) {
 		message.channel.send('Ping.')
 	},
 }

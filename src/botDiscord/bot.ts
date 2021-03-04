@@ -1,36 +1,37 @@
-import { Client } from 'discord.js'
+import { Client, Message } from 'discord.js'
 import commandsReader from './scripts/commandsReader'
-import configuration from '../comunication/config.json'
+import configuration from '../communication/config.json'
 import date_message from '../utils/date_message'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-type Comand = any
-type AllTypes = any
 
 class Bot extends Client {
 	
-	commands : Comand
+	commands : {[key:string]:any}
 
-	constructor(...args: AllTypes) {
+	constructor(...args:any[]) {
 		super(...args)
 		this.commands = commandsReader(configuration.prefix)
 
 		this.on('ready', async () => {
-			console.log(`${this.user.tag}`)
+			if(this.user != null) {
+				console.log(`${this.user.tag}`)
+			}
+
 		})
 
-		this.on('message', async msg => {
+		this.on('message', async (msg: Message) => {
 
-			const messageFormated =  `${date_message(msg)} ${msg.author.username}: ${msg.content}`
-			console.log(messageFormated)
+			const messageFormatted =  `${date_message(msg)} ${msg.author.username}: ${msg.content}`
+			console.log(messageFormatted)
                         
-			if (this.user.presence.status === 'online') {
+			if (this.user && this.user.presence.status === 'online') {
 
 				if (!msg.author.bot) {
 
 					const args = msg.content.split(' ')
 					if (this.commands[args[0]]) {
-						await this.commands[args[0]](this, msg)
+						await this.commands[args[0]](this, {message: msg})
+						
 					}
 
 				}
@@ -43,7 +44,11 @@ class Bot extends Client {
 	
 	async logout(){
 		this.token = null
-		setTimeout(async () => await this.user.setStatus('invisible'), 1000)
+		setTimeout(async () => {
+			if(this.user != null){
+				await this.user.setStatus('invisible')
+			}
+		}, 1000)
 		console.log('Bot offline')
 	}
 
