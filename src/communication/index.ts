@@ -1,30 +1,24 @@
-
-import Bot from '../botDiscord/bot'
 import communicationGetterSetter from './communicationGetterSetter'
 import communicationGuild from './communicationGuild'
 import communicationLoginLogout from './communicationLoginLogout'
 
-import { Presence } from "discord.js";
+import { Presence } from 'discord.js'
 import { guild } from './communicationGuild'
 
-type RESPONSE = (
-	string | undefined | 
-	Promise<"online" | "idle" | "dnd" | "invisible" | "offline" | 'Token Válido'|'Token Inválido'> |
-	guild[] | Presence |  null | void )
+type nulls = undefined | null | void
+type promises_discord = Promise<'online' | 'idle' | 'dnd' | 'invisible' | 'offline' | 'Token Válido'|'Token Inválido'> 
+
+
+interface RESPONSE {
+	[key:string]: string | Presence | nulls | promises_discord | number | guild[] 
+}
+
 
 export {RESPONSE}
 
-export default () => {
 
-	const DiscordAppBot = new Bot()
-	const communicationGetSet = communicationGetterSetter(DiscordAppBot)
-	const communicationLogin_out = communicationLoginLogout(DiscordAppBot)
-	const communicationGUILD = communicationGuild(DiscordAppBot)
-
-	return {
-		...communicationGetSet,
-		...communicationLogin_out,
-		...communicationGUILD
-	}
+export default {
+	...communicationGetterSetter,
+	...communicationLoginLogout,
+	...communicationGuild
 }
-

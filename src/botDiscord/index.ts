@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Client, Message } from 'discord.js'
 import commandsReader from './scripts/commandsReader'
 import configuration from '../communication/config.json'

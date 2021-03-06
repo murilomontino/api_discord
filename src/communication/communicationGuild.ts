@@ -1,4 +1,4 @@
-import Bot from '../botDiscord/bot'
+import Bot from '../botDiscord'
 
 
 export interface guild{
@@ -10,33 +10,27 @@ export interface guild{
 	owner: string | undefined
 }
 
-
-export default (DiscordAppBot:Bot) => {
-    
-
-	const getGuilds = async () => {
-		const ArrayGuilds:Array<guild> = []
-		const guilds = DiscordAppBot.guilds.cache
+const getGuilds = async (DiscordAppBot:Bot) => {
+	const ArrayGuilds:Array<guild> = []
+	const guilds = DiscordAppBot.guilds.cache
         
         
-		guilds.forEach( async guild => {
+	guilds.forEach( async guild => {
 
-			ArrayGuilds.push({
-				icon: guild.iconURL(),
-				id: guild.id,
-				name: guild.name,
-				description: guild.description,
-				memberCount: guild.memberCount,
-				owner: guild.owner? guild.owner.user.username:undefined
+		ArrayGuilds.push({
+			icon: guild.iconURL(),
+			id: guild.id,
+			name: guild.name,
+			description: guild.description,
+			memberCount: guild.memberCount,
+			owner: guild.owner? guild.owner.user.username:undefined
 
-			}) 
-		})
+		}) 
+	})
 
-		return ArrayGuilds
-	}
-    
-	return {
-		getGuilds
-	}
+	return {Guild: ArrayGuilds}
+}
+export default  {
+	getGuilds
 }
 

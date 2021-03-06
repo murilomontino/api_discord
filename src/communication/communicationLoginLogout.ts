@@ -1,28 +1,25 @@
-import Bot from '../botDiscord/bot'
+import Bot from '../botDiscord'
 
-export default (DiscordAppBot:Bot) => {
+const loginWithToken = async (DiscordAppBot:Bot, { token }:{token:string}) => {
+	try {
+		await DiscordAppBot.login(token)
+		if(DiscordAppBot.user)
+			await DiscordAppBot.user.setStatus('online')
+		return 'Token Válido'
 
-
-	const loginWithToken = async ({ token }:{token:string}) => {
-		try {
-			await DiscordAppBot.login(token)
-			if(DiscordAppBot.user)
-				await DiscordAppBot.user.setStatus('online')
-			return 'Token Válido'
-
-		} catch (error) {
-			return 'Token Inválido'
-		}
-
+	} catch (error) {
+		return 'Token Inválido'
 	}
 
-	const logoutBot = async () => { await DiscordAppBot.logout() }
+}
 
+const logoutBot = async (DiscordAppBot:Bot) => { await DiscordAppBot.logout() }
+
+export default {
 	
-	return {
-		loginWithToken,
-		logoutBot,
-	}
+	loginWithToken,	
+	logoutBot,
+	
 }
 
 
